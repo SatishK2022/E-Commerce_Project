@@ -1,10 +1,12 @@
 import express from 'express';
 import { PORT } from './config/server.config.js';
 import { DB_URL } from './config/db.config.js';
-import User from './models/user.model.js';
+import {User} from './models/user.model.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs'
 const app = express();
+
+app.use(express.json());
 
 
 // DB Connection
@@ -17,11 +19,12 @@ mongoose.connect(DB_URL)
         console.log("❌ Error connecting to database", err);
     })
 
-
 // Create an admin user at the starting of the application if not already present
 async function init() {
+    let user;
+
     try {
-        let user = await User.findOne({ userId: "admin" });
+        user = await User.findOne({ userId: "admin" });
 
         if (user) {
             console.log("Admin is already present")
@@ -46,6 +49,29 @@ async function init() {
     }
 }
 
+
+// routes import
+import authRouter from './routes/auth.route.js';
+
+// routes decleration
+app.use('/api/v1/auth', authRouter)
+
+
+
+
+
+
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Welcome to E-Commerce API"
+    })
+})
+
+// for checking the server
+app.get('/ping', (req, res) => {
+    res.send("pong")
+})
 
 app.listen(PORT, () => {
     console.log(`Server is listening on http://localhost:${PORT}`)
