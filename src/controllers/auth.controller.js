@@ -44,7 +44,6 @@ async function signin(req, res) {
 
     try {
         const user = await User.findOne({ userId })
-        console.log(user)
         if (!user) {
             return res.status(400).json({
                 success: false,

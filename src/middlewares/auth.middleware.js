@@ -29,6 +29,30 @@ function verifySignup(req, res, next) {
     }
 }
 
+function verifySignin(req, res, next) {
+    try {
+        const { userId, password } = req.body;
+
+        if (!userId || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required"
+            })
+        }
+
+        next()
+
+    } catch (error) {
+        console.log("Error While validating the request body");
+
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
 export {
-    verifySignup
+    verifySignup,
+    verifySignin
 }
