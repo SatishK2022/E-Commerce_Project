@@ -4,9 +4,11 @@ import { DB_URL } from './config/db.config.js';
 import {User} from './models/user.model.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs'
+import cookieParser from 'cookie-parser';
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 
 // DB Connection
@@ -66,11 +68,6 @@ app.get('/', (req, res) => {
         success: true,
         message: "Welcome to E-Commerce API"
     })
-})
-
-// for checking the server
-app.get('/ping', (req, res) => {
-    res.send("pong")
 })
 
 app.listen(PORT, () => {

@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import JWT from "jsonwebtoken";
+import { JWT_EXPIRY, JWT_SECRET } from "../config/auth.config.js";
 
 
 // name, userId, email, password, userType
@@ -23,7 +25,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        select: false
     },
     userType: {
         type: String,
@@ -40,5 +41,16 @@ userSchema.pre('save', function(next) {
     this.password = bcrypt.hashSync(this.password, 10);
     return next();
 })
+
+// JWT Token
+userSchema.methods = {
+    jwtToken() {
+        return JWT.sign(
+            { id: this.userId },
+            JWT_SECRET,
+            { expiresIn: JWT_EXPIRY }
+        )
+    }
+}
 
 export const User = mongoose.model("User", userSchema)
