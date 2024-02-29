@@ -58,7 +58,7 @@ import categoryRoute from './routes/category.route.js';
 
 // routes decleration
 app.use('/api/v1/auth', authRouter)
-app.use('/api/v1/category', categoryRoute)
+app.use('/api/v1/categories', categoryRoute)
 
 
 
