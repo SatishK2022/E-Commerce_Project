@@ -54,9 +54,11 @@ async function init() {
 
 // routes import
 import authRouter from './routes/auth.route.js';
+import categoryRoute from './routes/category.route.js';
 
 // routes decleration
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/category', categoryRoute)
 
 
 
